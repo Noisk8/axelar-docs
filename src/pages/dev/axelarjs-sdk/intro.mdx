@@ -1,23 +1,25 @@
+<document>
+
 # AxelarJS SDK
 
-The AxelarJS SDK is an npm library that includes a collection of APIs and query tools. 
+El AxelarJS SDK es una biblioteca npm que incluye una colección de API y herramientas de consulta.
 
-The package can be installed into your dApp as a project dependency with:
+El paquete se puede instalar en tu dApp como una dependencia del proyecto con:
 ```bash
 npm i @axelar-network/axelarjs-sdk
 ```
 
-Current modules:
+Módulos actuales:
 
 - `AxelarAssetTransfer`
-    - Used for cross-chain token transfer via deposit address generation.
-    - [Token Transfer via Deposit Address](token-transfer-dep-addr).
+    - Se utiliza para la transferencia de tokens entre cadenas mediante la generación de direcciones de depósito.
+    - [Transferencia de tokens mediante dirección de depósito](token-transfer-dep-addr).
 
 - `AxelarGMPRecoveryAPI`
-    - API library to track and recover (if needed) GMP transactions (both `callContract` and `callContractWithToken`).
-    - Transactions are indexed by the transaction hash initiated on the source chain when invoking either `callContract` or `callContractWithToken`.
-    - [GMP transaction status and recovery](tx-status-query-recovery).
+    - Biblioteca API para rastrear y recuperar (si es necesario) transacciones GMP (tanto `callContract` como `callContractWithToken`).
+    - Las transacciones se indexan por el hash de la transacción iniciada en la cadena de origen al invocar `callContract` o `callContractWithToken`.
+    - [Estado de la transacción GMP y recuperación](tx-status-query-recovery).
 
 - `AxelarQueryAPI`
-    - Collection of helpful predefined queries into the network, e.g., transaction fees for token transfers, cross-chain gas prices for GMP transactions, denom conversions, etc.
-    - [Axelar Query API](axelar-query-api).
+    - Colección de consultas predefinidas útiles en la red, por ejemplo, tarifas de transacción para transferencias de tokens, precios de gas entre cadenas para transacciones GMP, conversiones de denom, etc.
+    - [API de consulta de Axelar](axelar-query-api).</document>
