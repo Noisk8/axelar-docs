@@ -1,16 +1,15 @@
 # Axelar query API
+Este módulo es bueno para tener con el cuañ se pueden hacer consultas comunes en la red Axelar y sus servicios, que se abstraen en una forma facil de usar de tan solo una linea de JavaScript 
 
-This module is a nice-to-have of common queries made into the Axelar network and its services that are abstracted into easy-to-use JavaScript one-liners.
+### Instalar el Módulo del SDK AxelarJS (`AxelarQueryAPI`)
 
-### Install the AxelarJS SDK module (`AxelarQueryAPI`)
-
-Install the AxelarJS SDK:
+Instalar el SDK AxelarJS:
 
 ```bash
 npm i @axelar-network/axelarjs-sdk
 ```
 
-Instantiate the `AxelarQueryAPI` module:
+Instancial el módulo `AxelarQueryAPI`:
 
 ```ts
 const sdk = new AxelarQueryAPI({
@@ -18,30 +17,30 @@ const sdk = new AxelarQueryAPI({
 });
 ```
 
-### Possible queries
+### Posibles consultas
 
 #### `estimateGasFee`
 
-This is a useful query for GMP transactions, when invoking `callContract` or `callContractWithToken` to get an estimate of the appropriate gas payment to be made to the gas receiver on the source chain.
+Se trata de una consulta útil para las transacciones GMP, cuando se invoca `callContract` o `callContractWithToken` para obtener una estimación del pago de gas apropiado que debe realizarse al receptor de gas en la cadena de origen.
 
-IMPORTANT NOTES:
+NOTAS IMPORTANTES:
 
-* You must ensure the correct `gasLimit` is used for your gas estimation. The gas limit is equal to the execution gas cost on the destination chain. You can test out GMP calls to find the correct value.
-* The `minGasPrice` and `gasMultipler` parameters can be adjusted to enhance execution certainty of cross-chain transactions.
-* L2 chains. For execution of GMP calls where the destination chain is an EVM L2 chain, it is important to note that all L2 chains have an extra cost of posting the executed transaction back to the L1 chain. This `estimateGasFee` SDK method will aggregate that estimated cost for you. The parameters to call out specifically for L2s are:
-  - the `gasLimit` parameter, which are the actual gas units required to execute the tx on the L2 chain. You can check this empirically by looking at the gas used to execute the `AxelarExecutable` on the destination chain.
-  - the `executeData` parameter, which is the GMP data to be executed on the L2 destination chain. This is important for OP-stack chains, where the SDK queries a gas oracle contract with this executeData to retrieve the L1 fee, and if the parameter for `executeData` is not provided, a stub piece of `executeData` is used. 
-* The response to the method gives a single value (in `wei`) of the total estimated gas required for the cross-chain call. In the GMPParams parameter, there is an option to show a full breakdown of fees instead by specifying `true` for `showDetailedFees`. If you do this, you will have to add the individual components of the fees yourself, e.g. 
-  - `(baseFee + executionFeeWithMultiplier)` for regular way GMP calls,
-  - `(baseFee + executionFeeWithMultiplier + l1ExecutionFeeWithMultiplier)` for regular way GMP calls to any L2 chains,
-  - `(baseFee + executionFeeWithMultiplier + expressFee)` for GMP Express calls
+* Debe asegurarse de que se utiliza el `gasLimit` correcto para su estimación de gas. El límite de gas es igual al coste de gas de ejecución en la cadena de destino. Puede probar las llamadas GMP para encontrar el valor correcto.
+* Los parámetros `minGasPrice` y `gasMultipler` pueden ajustarse para mejorar la seguridad de ejecución de las transacciones entre cadenas.
+* Cadenas L2. Para la ejecución de llamadas GMP en las que la cadena de destino es una cadena EVM L2, es importante tener en cuenta que todas las cadenas L2 tienen un coste adicional de contabilización de la transacción ejecutada de vuelta a la cadena L1. Este método SDK `estimateGasFee` agregará ese coste estimado para usted. Los parámetros a llamar específicamente para L2s son:
+  - el parámetro `gasLimit`, que son las unidades de gas reales necesarias para ejecutar el tx en la cadena L2. Puedes comprobarlo empíricamente mirando el gas utilizado para ejecutar el `AxelarExecutable` en la cadena de destino.
+  - el parámetro `executeData`, que son los datos GMP que se ejecutarán en la cadena de destino L2. Esto es importante para las cadenas OP-stack, donde el SDK consulta un contrato de oráculo de gas con este executeData para recuperar el fee L1, y si no se proporciona el parámetro para `executeData`, se utiliza una pieza stub de `executeData`.
+*  La respuesta al método proporciona un único valor (en `wei`) del gas total estimado necesario para la llamada a través de la cadena. En el parámetro GMPParams, existe la opción de mostrar un desglose completo de los fees especificando `true` para `showDetailedFees`. Si hace esto, tendrá que añadir los componentes individuales de los fees usted mismo, por ejemplo.
+  - `(baseFee + executionFeeWithMultiplier)` para llamadas GMP de forma regular,
+  - `(baseFee + executionFeeWithMultiplier + l1ExecutionFeeWithMultiplier)` para llamadas GMP de forma regular a cualquier cadena L2 ,
+  - `(baseFee + executionFeeWithMultiplier + expressFee)` para llamadas GMP Express
 
 ```ts
 
   interface GMPParams {
     showDetailedFees: boolean;
-    transferAmount?: number; // In terms of symbol, not unit denom, e.g. use 1 for 1 axlUSDC, not 1000000
-    transferAmountInUnits?: string; // In terms of unit denom, not symbol, e.g. use 1000000 for 1 axlUSDC, not 1
+    transferAmount?: number; // En términos de símbolo, no de denominación de la unidad, por ejemplo, utilice 1 para 1 axlUSDC, no 1000000
+    transferAmountInUnits?: string; // IEn términos de denominación de la unidad, no de símbolo, por ejemplo, utilice 1000000 para 1 axlUSDC, no 1
     destinationContractAddress: string;
     sourceContractAddress: string;
     tokenSymbol: string;
@@ -61,7 +60,7 @@ IMPORTANT NOTES:
   }
 
   /**
-   * Calculate estimated gas amount to pay for the gas receiver contract.
+   * Calcular el importe estimado de gas a pagar por el contrato de receptor de gas.
    * @param sourceChainId Can be of the EvmChain enum or string. If string, should try to generalize to use the CHAINS constants (e.g. CHAINS.MAINNET.ETHEREUM)
    * @param destinationChainId Can be of the EvmChain enum or string. If string, should try to generalize to use the CHAINS constants (e.g. CHAINS.MAINNET.ETHEREUM)
    * @param gasLimit An estimated gas amount required to execute the `execute` or `executeWithToken` function.

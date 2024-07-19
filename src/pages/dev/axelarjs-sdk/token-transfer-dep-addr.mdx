@@ -1,39 +1,40 @@
-# Get a deposit address
+# Obtener una dirección de depósito
 
 import { Callout } from "/src/components/callout"
 
-A deposit address is a temporary special address created and monitored by **Axelar's Relayer Services** on behalf of the requester. It is similar to how centralized exchanges generate a monitored, one-time deposit address that facilitates your token transfers. Deposit addresses generally function for up to 24 hours.
+Una dirección de depósito es una dirección especial temporal creada y supervisada por **Axelar's Relayer Services** en nombre del solicitante. Es similar a la forma en que las bolsas centralizadas generan una dirección de depósito única y supervisada que facilita las transferencias de tokens. Las direcciones de depósito suelen funcionar durante un máximo de 24 horas.
 
-### Deposit address workflow
+### Flujo de trabajo de la dirección de depósito
 
-1. The user generates a deposit address on a specific source chain.
-2. The user sends tokens to the deposit address on the source chain.
+1. El usuario genera una dirección de depósito en una cadena de origen específica.
+2. 2. El usuario envía tokens a la dirección de depósito de la cadena de origen.
 
-- Examples:
+- Ejemplos:
 
-  - withdrawal from a centralized exchange
-  - transaction from your favorite wallet software.
+  - retirada de un exchange centralizado
+  - transacción desde su wallet favorito.
 
 <Callout emoji="ℹ️">
-IMPORTANT NOTE: When making your deposit, please ensure that the amount is **greater than the cross-chain relayer gas fee**
-- A table of fees is listed here: [mainnet](../../resources/mainnet#cross-chain-relayer-gas-fee) | [testnet](../../resources/testnet#cross-chain-relayer-gas-fee).
-- Alternatively, they can be programmatically queried in the SDK's [AxelarQueryAPI](../axelarjs-sdk/axelar-query-api#gettransferfee).
+ NOTA IMPORTANTE: Al realizar su deposito, asegúrese de que el importe es     **mayor que la tasa de gas fee del relay cross-chain**
+- Aquí encontrará una tabla de tasas:
+[mainnet](../../resources/mainnet#cross-chain-relayer-gas-fee) | [testnet](../../resources/testnet#cross-chain-relayer-gas-fee).
+- También se pueden consultar mediante programación en el SDK [AxelarQueryAPI](../axelarjs-sdk/axelar-query-api#gettransferfee).
 </Callout>
 
-3. Axelar relayers observe the deposit transaction on the source chain and complete it on the destination chain, assuming the amount exceeds the requisite fee.
-4. Watch your tokens arrive on the destination chain.
+3. Los relays de Axelar observan la transacción de depósito en la cadena de origen y la completan en la cadena de destino, suponiendo que el importe supere la tasa requerida..
+4. Observa cómo llegan tus tokens a la cadena de destino.
 
 ### 1. Prerequisite
 
-To help you write clean code, you can use the `Environment` and `CHAINS` constants.
+Para ayudarte a escribir código limpio, puedes utilizar las constantes `Environment` y `CHAINS`.
 
-Most methods in the sdk require you to work with chain ids instead of chain names. **Chain ids are unique per Environment** and are _specific to Axelar_. For instance, Ethereum will have a chain id of `ethereum` on mainnet but `ethereum-2` on testnet. In the same way Osmosis will be `osmosis` on mainnet but `osmosis-4` on tesnet. However some chains will have no difference between the chain names and chain ids.
+La mayoría de los métodos en el sdk requieren que trabajes con identificadores de cadena en lugar de nombres de cadena. **Los identificadores de cadena son únicos por entorno** y son _específicos de Axelar_. Por ejemplo, Ethereum tendrá un id de cadena `ethereum` en mainnet pero `ethereum-2` en testnet. Del mismo modo, Osmosis será `osmosis` en mainnet pero `osmosis-4` en tesnet. Sin embargo, algunas cadenas no tendrán ninguna diferencia entre los nombres de cadena y los identificadores de cadena.
 
-To find the chain ids we support you can check the resources section. You can find the **testnet chain information** [here](/resources/testnet) and **mainnet chain information** [there](/resources/mainnet)
+Para encontrar los identificadores de cadena que soportamos puede consultar la sección de recursos. Puede encontrar la **información sobre la cadena TESTNET** [aquí](/resources/testnet) y la **información sobre la cadena MAINET** [aquí](/resources/mainnet).
 
-### 2. Install the AxelarJs SDK
+### 2. Instala el SDK AxelarJs
 
-The AxelarJS SDK is an `npm` dependency that helps to make requests to the Axelar network. The SDK is essentially a wrapper around various API endpoints. One of the endpoints allows you to generate a deposit address. Alternatively, you can create a deposit address using the [CLI instead of the SDK](../../learn/cli).
+AxelarJS SDK es una dependencia de `npm` que ayuda a realizar peticiones a la red Axelar. El SDK es esencialmente una envoltura alrededor de varios puntos finales de la API. Uno de los puntos finales le permite generar una dirección de depósito. Alternativamente, puede crear una dirección de depósito utilizando el [CLI en lugar del SDK](../../learn/cli).
 
 ```bash
 npm i @axelar-network/axelarjs-sdk
@@ -41,7 +42,7 @@ npm i @axelar-network/axelarjs-sdk
 yarn add @axelar-network/axelarjs-sdk
 ```
 
-### 3. Import & instantiate the `AxelarAssetTransfer`
+### 3. Importa e inicializa el `AxelarAssetTransfer`
 
 ```ts
 import { AxelarAssetTransfer, Environment } from "@axelar-network/axelarjs-sdk";
@@ -51,11 +52,11 @@ const axelarAssetTransfer = new AxelarAssetTransfer({
 });
 ```
 
-### 4. Get an estimate of the transfer fees (optional)
+### 4. Obtenga una estimación de los fees de la transferecia (opcional)
 
-If you plan on using the transfer assets functionality, it is paramount to take the relayer fees into account. Any deposits into a deposit address that are not in excess of this calculate fee will not get processed until that deposit address is topped up to encompass the fee.
+Si tiene previsto utilizar la función de transferencia de activos, es fundamental que tenga en cuenta los "relayer fees". Cualquier depósito en una dirección de depósito que no supere este fee calculado no será procesado hasta que esa dirección de depósito sea recargada para cubrir el fee.
 
-The following query retrieves the fee charged by the relayer for a transfer.
+La siguiente consulta recupera el fee que cobra el repetidor por una transferencia.
 
 ```ts
 import {
@@ -81,23 +82,23 @@ async function main() {
 main();
 ```
 
-You can look up asset denominations on our [resources page](/resources/mainnet#assets).
+Puede consultar las denominaciones de los activos en nuestra [pagina de recursos](/resources/mainnet#assets).
 
-### 5. Generate a deposit address
+### 5. Generar una dirección de depósito
 
-> When making your deposit, please ensure that the amount is greater than the cross-chain relayer gas fee. The relayer gas fee can be calculated with `getTransferFee` function above.
+> Cuando realice el depósito, asegúrese de que el importe es superior al "cross-chain relayer gas fee". Puede calcular el fee con la función `getTransferFee`
 
-The `AxelarAssetTransfer` class exposes the `getDepositAddress` function. With this function, you can create a **deposit address**. Here is the function signature 👇
+La clase `AxelarAssetTransfer` expone la función `getDepositAddress`. Con esta función, puede crear una **dirección de depósito**. Aquí está la firma de la función 👇
 
 ```tsx
 interface GetDepositAddressParams {
-  fromChain: string; // See note (3) below
-  toChain: string; // See note (3) below
-  destinationAddress: string; // See note (1) below
-  asset: string; // denom of asset. See note (2) below
+  fromChain: string; // Ver la nota (3)
+  toChain: string; // Ver la nota (3)
+  destinationAddress: string; // Ver la nota (1)
+  asset: string; // denominación del activo. Ver la nota (2)
   options?: {
     shouldUnwrapIntoNative?: boolean;
-    refundAddress?: string; // optional. See note (4) below
+    refundAddress?: string; // octional. Ver la nota (4)
   };
 }
 
@@ -106,109 +107,109 @@ async getDepositAddress({
 }: GetDepositAddressParams): Promise<string> {}
 ```
 
-#### EXAMPLES
-All possible use cases are covered in the scenarios below
+#### EJEMPLOS
+Todos los posibles casos de uso están cubiertos en los siguientes escenarios
 
-##### 1. Send tokens from a Cosmos-based chain
+##### 1. Enviar tokens desde una cadena basada en Cosmos
 
-Transfer any Axelar-supported asset from a cosmos-based chain to a destination chain. 
-* Destination chains can be either an EVM chain or cosmos-based chain
-* When sending to an EVM chain, the asset will arrive as an ERC-20 asset
+Transfiere cualquier activo soportado por Axelar desde una cadena basada en cosmos a una cadena de destino.
+* Las cadenas de destino pueden ser una cadena EVM o una cadena basada en Cosmos.
+* Al enviar a una cadena EVM, el activo llegará como un activo ERC-20.
 
-Example acceptance criteria: 
-`I want to send axlUSDC on Osmosis and receive the equivalent ERC-20 version on Avalanche.`
+Ejemplo de criterios de aceptación:
+`Quiero enviar axlUSDC en Osmosis y recibir la versión ERC-20 equivalente en Avalanche.`
 
 ```ts
 const sdk = new AxelarAssetTransfer({ environment: "testnet" });
 
-const fromChain = CHAINS.TESTNET.OSMOSIS, 
+const fromChain = CHAINS.TESTNET.OSMOSIS,
   toChain = CHAINS.TESTNET.AVALANCHE,
   destinationAddress = "0xF16DfB26e1FEc993E085092563ECFAEaDa7eD7fD",
-  asset = "uausdc";  // denom of asset. See note (2) below
+  asset = "uausdc";  // denominación del activo. Ver la nota (2)
 
 const depositAddress = await sdk.getDepositAddress({
-  fromChain, 
-  toChain, 
-  destinationAddress, 
+  fromChain,
+  toChain,
+  destinationAddress,
   asset
 });
 ```
 
-##### 2. Send ERC-20 tokens from an EVM chain
+##### 2. Enviar tokens ERC-20 desde una cadena EVM
 
-Transfer any Axelar-supported ERC-20 asset from an EVM chain to any destination chain.
-* Destination chains can be either an EVM chain or cosmos-based chain
-* When sending to an EVM chain, the asset will arrive as an ERC-20 asset
+Transfiera cualquier activo ERC-20 soportado por Axelar desde una cadena EVM a cualquier cadena de destino.
+* Las cadenas de destino pueden ser una cadena EVM o una cadena basada en Cosmos.
+* Cuando se envíe a una cadena EVM, el activo llegará como un activo ERC-20
 
-Example acceptance criteria: 
-`I want to send axlUSDC on Avalanche and receive axlUSDC on Osmosis.`
+Ejemplo de criterios de aceptación:
+Quiero enviar axlUSDC en Avalanche y recibir axlUSDC en Osmosis.
 
 ```ts
 const sdk = new AxelarAssetTransfer({ environment: "testnet" });
 
-const fromChain = CHAINS.TESTNET.AVALANCHE, 
+const fromChain = CHAINS.TESTNET.AVALANCHE,
   toChain = CHAINS.TESTNET.OSMOSIS,
   destinationAddress = "osmo1x3z2vepjd7fhe30epncxjrk0lehq7xdqe8ltsn",
   asset = "uausdc";
 
 const depositAddress = await sdk.getDepositAddress({
-  fromChain, 
-  toChain, 
-  destinationAddress, 
+  fromChain,
+  toChain,
+  destinationAddress,
   asset
 });
 
 ```
 
-##### 3. Send native tokens from a EVM chain
+##### 3. Enviar tokens nativos de una cadena EVM
 
-Also known as "wrap", transfer the native asset of an EVM chain to any destination chain.
-* Destination chains can be either an EVM chain or cosmos-based chain
-* When sending to an EVM chain, the asset will arrive as an ERC-20 "wrapped" asset
-* The only difference here vs. case (1) above is that the specified asset is the native asset of the source EVM chain. 
+También conocido como «wrap», transfiere el activo nativo de una cadena EVM a cualquier cadena de destino.
+* Las cadenas de destino pueden ser una cadena EVM o una cadena basada en cosmos
+* Cuando se envía a una cadena EVM, el activo llegará como un activo ERC-20 «envuelto».
+* La única diferencia con el caso (1) anterior es que el activo especificado es el activo nativo de la cadena EVM de origen.
 
-Example acceptance criteria: 
-`I want to send AVAX on Avalanche and receive the equivalent ERC-20 version on Polygon.`
+Ejemplo de criterios de aceptación:
+`Quiero enviar AVAX en Avalanche y recibir la versión ERC-20 equivalente en Polygon.`
 
 ```ts
 const sdk = new AxelarAssetTransfer({ environment: "testnet" });
 
-const fromChain = CHAINS.TESTNET.AVALANCHE, 
+const fromChain = CHAINS.TESTNET.AVALANCHE,
   toChain = CHAINS.TESTNET.POLYGON,
   destinationAddress = "0xF16DfB26e1FEc993E085092563ECFAEaDa7eD7fD",
   asset = "avax"
 
 const depositAddress = await sdk.getDepositAddress({
-  fromChain, 
-  toChain, 
-  destinationAddress, 
+  fromChain,
+  toChain,
+  destinationAddress,
   asset
 });
 ```
 
-##### 4. Send a wrapped native token from an EVM chain back to its home EVM chain, e.g. "UNWRAP"
+##### 4. Enviar un token nativo envuelto desde una cadena EVM de vuelta a su cadena EVM de origen, por ejemplo, «UNWRAP».
 
-Also known as "wrap", transfer a wrapped native token from an EVM chain back to its home EVM chain
-* The destination chain must be the native chain on the wrapped native asset
-* You can specify an optional parameter in the configs for `GetDepositAddressParams` whether you want to receive the asset in the form of native tokens on the destination chain OR its ERC-20 equivalent. 
+También conocido como «wrap», transfiere un token nativo envuelto desde una cadena EVM de vuelta a su cadena EVM de origen
+* La cadena de destino debe ser la cadena nativa del activo nativo empaquetado.
+* Puede especificar un parámetro opcional en las configuraciones para `GetDepositAddressParams` si desea recibir el activo en forma de tokens nativos en la cadena de destino O su equivalente ERC-20.
 
-Two scenarios below
+Dos escenarios a continuación
 
-Example acceptance criteria: 
-`I want to send WAVAX on Polygon and receive WAVAX on Avalanche.`
+Ejemplo de criterios de aceptación:
+Quiero enviar WAVAX en Polygon y recibir WAVAX en Avalanche.
 
 ```ts
 const sdk = new AxelarAssetTransfer({ environment: "testnet" });
 
-const fromChain = CHAINS.TESTNET.POLYGON, 
+const fromChain = CHAINS.TESTNET.POLYGON,
   toChain = CHAINS.TESTNET.AVALANCHE,
   destinationAddress = "0xF16DfB26e1FEc993E085092563ECFAEaDa7eD7fD",
   asset = "wavax-wei"
 
 const depositAddress = await sdk.getDepositAddress({
-  fromChain, 
-  toChain, 
-  destinationAddress, 
+  fromChain,
+  toChain,
+  destinationAddress,
   asset,
   options: {
     shouldUnwrapIntoNative: false
@@ -216,21 +217,21 @@ const depositAddress = await sdk.getDepositAddress({
 });
 ```
 
-Example acceptance criteria: 
-`I want to send WAVAX on Polygon and receive AVAX on Avalanche.`
+Ejemplo de criterios de aceptación:
+`Quiero enviar WAVAX en Polygon y recibir AVAX en Avalanche.`
 
 ```ts
 const sdk = new AxelarAssetTransfer({ environment: "testnet" });
 
-const fromChain = CHAINS.TESTNET.POLYGON, 
+const fromChain = CHAINS.TESTNET.POLYGON,
   toChain = CHAINS.TESTNET.AVALANCHE,
   destinationAddress = "0xF16DfB26e1FEc993E085092563ECFAEaDa7eD7fD",
   asset = "wavax-wei"
 
 const depositAddress = await sdk.getDepositAddress({
-  fromChain, 
-  toChain, 
-  destinationAddress, 
+  fromChain,
+  toChain,
+  destinationAddress,
   asset,
   options: {
     shouldUnwrapIntoNative: true
@@ -238,14 +239,15 @@ const depositAddress = await sdk.getDepositAddress({
 });
 ```
 
-##### Notes
+##### Notas
 
-(1) The destination address format is validated based on the destination chain. Make sure the destination address is a valid address on the destination chain. For instance, Kujira addresses begin with “kujira”, etc.
+(1) El formato de la dirección de destino se valida en función de la cadena de destino. Asegúrese de que la dirección de destino es una dirección válida en la cadena de destino. Por ejemplo, las direcciones Kujira empiezan por «kujira», etc.
 
-Once the deposit address has been generated, the user can make a token transfer (on blockchain) to the deposit address. The transfer will be picked up by the Axelar network and relayed to the destination chain.
+Una vez generada la dirección de depósito, el usuario puede realizar una transferencia de tokens (en blockchain) a la dirección de depósito. La transferencia será recogida por la red Axelar y retransmitida a la cadena de destino.
 
-(2) For all the assets that Axelar supports natively, the network identifies the asset by a `denom`. If you are accustomed to the `symbol` typically used on EVM chains, you will have to convert that `symbol` to a `denom`. The SDK has an API method you can use to convert symbol to denom: [getDenomFromSymbol](./axelar-query-api#getdenomfromsymbol) 
+(2) Para todos los activos que Axelar soporta de forma nativa, la red identifica el activo mediante un `denom`. Si está acostumbrado al `symbol` típicamente utilizado en las cadenas EVM, tendrá que convertir ese `symbol` a un `denom`. El SDK tiene un método API que puede utilizar para convertir el símbolo a denom: [getDenomFromSymbol](./axelar-query-api#getdenomfromsymbol)
 
-(3) Chain IDs (as recognized by Axelar) must be used here. For example, in testnet, the chain ID for `Osmosis` is `osmosis-5`. 
+(3) Los IDs de cadena (tal y como los reconoce Axelar) deben utilizarse aquí. Por ejemplo, en testnet, el ID de cadena para `Osmosis` es `osmosis-5`.
 
-(4) Refund address is an optional parameter. It specifies the address on a source chain where tokens erroneously deposited into a deposit address can be refunded. For example, if a deposit address was generated to send USDC, but the user mistakenly deposits WAVAX. If no address is specified, the API defaults the parameter to the Gas Receiver contract that can refund on the user's behalf. At the moment, the refundAddress parameter is only compatible with use cases 3 and 4 above, wrap and unwrap cases, respectively.
+
+(4) La dirección de devolución es un parámetro opcional. Especifica la dirección en una cadena de origen donde los tokens depositados erróneamente en una dirección de depósito pueden ser reembolsados. Por ejemplo, si se generó una dirección de depósito para enviar USDC, pero el usuario deposita por error WAVAX. Si no se especifica ninguna dirección, la API asigna por defecto el parámetro al contrato receptor de gas que puede reembolsar en nombre del usuario. Por el momento, el parámetro refundAddress sólo es compatible con los casos de uso 3 y 4 anteriores, casos de envolver y desenvolver, respectivamente.
