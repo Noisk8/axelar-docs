@@ -40,7 +40,7 @@ NOTAS IMPORTANTES:
   interface GMPParams {
     showDetailedFees: boolean;
     transferAmount?: number; // En términos de símbolo, no de denominación de la unidad, por ejemplo, utilice 1 para 1 axlUSDC, no 1000000
-    transferAmountInUnits?: string; // IEn términos de denominación de la unidad, no de símbolo, por ejemplo, utilice 1000000 para 1 axlUSDC, no 1
+    transferAmountInUnits?: string; // En términos de denominación de la unidad, no de símbolo, por ejemplo, utilice 1000000 para 1 axlUSDC, no 1
     destinationContractAddress: string;
     sourceContractAddress: string;
     tokenSymbol: string;
@@ -61,15 +61,15 @@ NOTAS IMPORTANTES:
 
   /**
    * Calcular el importe estimado de gas a pagar por el contrato de receptor de gas.
-   * @param sourceChainId Can be of the EvmChain enum or string. If string, should try to generalize to use the CHAINS constants (e.g. CHAINS.MAINNET.ETHEREUM)
-   * @param destinationChainId Can be of the EvmChain enum or string. If string, should try to generalize to use the CHAINS constants (e.g. CHAINS.MAINNET.ETHEREUM)
-   * @param gasLimit An estimated gas amount required to execute the `execute` or `executeWithToken` function.
-   * @param gasMultiplier (Optional) A multiplier used to create a buffer above the calculated gas fee, to account for potential slippage throughout tx execution, e.g. 1.1 = 10% buffer. supports up to 3 decimal places
-   * The default value is "auto", which uses the gas multiplier from the fee response
-   * @param sourceChainTokenSymbol (Optional) the gas token symbol on the source chain.
-   * @param minGasPrice (Optional) A minimum value, in wei, for the gas price on the destination chain that is used to override the estimated gas price if it falls below this specified value.
-   * @param executeData (Optional) The data to be executed on the destination chain. It's recommended to specify it if the destination chain is an L2 chain to calculate more accurate gas fee.
-   * @param gmpParams (Optional) Additional parameters for GMP transactions, including the ability to see a detailed view of the fee response
+   * @param sourceChainId Puede ser del tipo EvmChain enum o string. Si es una cadena, debe intentar generalizarse para utilizar las constantes CHAINS (por ejemplo, CHAINS.MAINNET.ETHEREUM). 
+   * @param destinationChainId Puede ser del tipo EvmChain enum o string. Si es una cadena, debe intentar generalizarse para utilizar las constantes CHAINS (por ejemplo, CHAINS.MAINNET.ETHEREUM).
+   * @param gasLimit  Cantidad estimada de gas necesaria para ejecutar la función `execute` o `executeWithToken`.
+   * @param gasMultiplier (Opcional) Multiplicador utilizado para crear un buffer por encima del fee de gas calculado, para tener en cuenta posibles desviaciones a lo largo de la ejecución de la tx, por ejemplo 1,1 = 10% de buffer. admite hasta 3 decimales.
+   * El valor por defecto es «auto», que utiliza el multiplicador de gas de la respuesta de fee
+   * @param sourceChainTokenSymbol (Opcional) el símbolo del token de gas en la cadena de origen.
+   * @param minGasPrice (Opcional) Un valor mínimo, en wei, para el precio del gas en la cadena de destino que se utiliza para anular el precio estimado del gas si cae por debajo de este valor especificado.
+   * @param executeData (Opcional) Los datos que se ejecutarán en la cadena de destino. Se recomienda especificarlo si la cadena de destino es una cadena L2 para calcular con mayor precisión el gas fee.
+   * @param gmpParams (Opcional) Parámetros adicionales para las transacciones GMP, incluida la posibilidad de ver una vista detallada de la respuesta de fee.
    * @returns
    */
   public async estimateGasFee(
@@ -86,11 +86,11 @@ NOTAS IMPORTANTES:
 
 #### getTransferFee
 
-Given a source chain, destination chain and amount of an asset, this query retrieves the base fee that the network would assess for that transaction.
+Dada una cadena de origen, una cadena de destino y el importe de un activo, esta consulta recupera el fee base que la red aplicaría a esa transacción.
 
 ```ts
 /**
- * Gets the transfer fee for a given transaction
+ * Obten el fee de transferencia de una transacción determinada
  * @param sourceChainName
  * @param destinationChainName
  * @param assetDenom
@@ -107,11 +107,11 @@ public async getTransferFee(
 
 #### getFeeForChainAndAsset
 
-Given a chain and asset, retrieves the base fee that the network would assess.
+Dada una cadena y un bien, recupera el fee base que la red aplicaría.
 
 ```ts
 /**
- * Gets the fee for a chain and asset
+ * Obten el fee de una cadena y un activo
  * @param chainName
  * @param assetDenom
  * @returns
@@ -124,9 +124,9 @@ public async getFeeForChainAndAsset(
 
 #### getDenomFromSymbol
 
-Get the denom for an asset given its symbol on a chain. For all the assets that Axelar supports natively, the network identifies the asset by a `denom`, while most EVM chains have a `symbol` for the asset.
+Obten el denom de un activo dado su símbolo en una cadena. Para todos los activos que Axelar soporta de forma nativa, la red identifica el activo por un `denom`, mientras que la mayoría de las cadenas EVM tienen un `símbolo` para el activo.
 
-The method below allows you to translate the asset symbol (as identified on an EVM chain) to the underlying denom.
+El siguiente método permite traducir el símbolo del activo (tal y como se identifica en una cadena EVM) al denom subyacente.
 
 ```ts
 /**
@@ -136,7 +136,7 @@ The method below allows you to translate the asset symbol (as identified on an E
  */
 public async getDenomFromSymbol(symbol: string, chainName: string)
 ```
-For example, let's say you have Axelar's canonical testnet `aUSDC`. The symbol for this asset on EVM chains is `aUSDC`, and the denom is `uausdc`. Sample usage to get denom from symbol:
+Por ejemplo, supongamos que tiene el testnet canónico de Axelar `aUSDC`. El símbolo de este activo en las cadenas EVM es `aUSDC`, y el denom es `uausdc`. Ejemplo de uso para obtener el denom a partir del símbolo:
 
 ```ts
   const queryConfig: AxelarQueryAPIConfig = {
@@ -156,9 +156,9 @@ For example, let's say you have Axelar's canonical testnet `aUSDC`. The symbol f
 
 #### getSymbolFromDenom
 
-Get the symbol for an asset on a given chain given its denom. For all the assets that Axelar supports natively, the network identifies the asset by a `denom`, while most EVM chains have a `symbol` for the asset.
+Obtiene el símbolo de un activo en una cadena dada dado su denom. Para todos los activos que Axelar soporta de forma nativa, la red identifica el activo por un `denom`, mientras que la mayoría de las cadenas EVM tienen un `símbolo` para el activo.
 
-The method below allows you to translate the asset denom to the asset symbol (as identified on an EVM chain).
+El siguiente método le permite traducir el nombre del activo al símbolo del activo (tal y como se identifica en una cadena EVM).
 
 ```ts
 /**
@@ -168,7 +168,7 @@ The method below allows you to translate the asset denom to the asset symbol (as
  */
 public async getSymbolFromDenom(denom: string, chainName: string)
 ```
-For example, let's say you have Axelar's canonical testnet `aUSDC`. The symbol for this asset on EVM chains is `aUSDC`, and the denom is `uausdc`. Sample usage to get symbol from denom:
+Por ejemplo, supongamos que tiene el testnet canónico de Axelar `aUSDC`. El símbolo de este activo en las cadenas EVM es `aUSDC`, y el denom es `uausdc`. Ejemplo de uso para obtener el símbolo de denom:
 
 ```ts
   const queryConfig: AxelarQueryAPIConfig = {
